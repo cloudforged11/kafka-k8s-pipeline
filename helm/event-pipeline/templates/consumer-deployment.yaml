@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-consumer
+  labels:
+    app: event-pipeline
+    component: consumer
+spec:
+  replicas: {{ .Values.consumer.replicas }}
+  selector:
+    matchLabels:
+      app: event-pipeline
+      component: consumer
+  template:
+    metadata:
+      labels:
+        app: event-pipeline
+        component: consumer
+    spec:
+      containers:
+        - name: consumer
+          image: {{ .Values.consumer.image }}
+          imagePullPolicy: Never
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: {{ .Values.kafka.bootstrapServers }}
+            - name: KAFKA_TOPIC
+              value: {{ .Values.kafka.topic }}
+            - name: KAFKA_GROUP_ID
+              value: {{ .Values.kafka.consumerGroupId }}
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-producer
+  labels:
+    app: event-pipeline
+    component: producer
+spec:
+  replicas: {{ .Values.producer.replicas }}
+  selector:
+    matchLabels:
+      app: event-pipeline
+      component: producer
+  template:
+    metadata:
+      labels:
+        app: event-pipeline
+        component: producer
+    spec:
+      containers:
+        - name: producer
+          image: {{ .Values.producer.image }}
+          imagePullPolicy: Never
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: {{ .Values.kafka.bootstrapServers }}
+            - name: KAFKA_TOPIC
+              value: {{ .Values.kafka.topic }}
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"

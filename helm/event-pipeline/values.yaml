@@ -1,0 +1,12 @@
+producer:
+  image: sample-producer:v1
+  replicas: 1
+
+consumer:
+  image: sample-consumer:v1
+  replicas: 1
+
+kafka:
+  bootstrapServers: my-cluster-kafka-bootstrap.kafka:9092
+  topic: sample-events
+  consumerGroupId: sample-consumer-group
