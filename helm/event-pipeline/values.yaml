@@ -1,9 +1,9 @@
 producer:
-  image: sample-producer:v1
+  image: ghcr.io/cloudforged11/kafka-k8s-pipeline/producer:latest
   replicas: 1
 
 consumer:
-  image: sample-consumer:v1
+  image: ghcr.io/cloudforged11/kafka-k8s-pipeline/consumer:latest
   replicas: 1
 
 kafka:
